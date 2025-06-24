@@ -151,9 +151,10 @@ INSERT INTO `employee` VALUES
 (2,2,'Kratie','password345',1);
 
 -- Step 16: Insert sample Payments
-INSERT INTO `payments` VALUES
-(1,1,'Cash','2024-12-18 10:42:09',6.00),
-(2,2,'Cash','2024-12-18 10:42:09',8.50);
+INSERT INTO `payments` (`OrderID`, `PaymentMethod`, `PaymentDate`, `Amount`)
+VALUES
+((SELECT `OrderID` FROM `orders` ORDER BY `OrderID` LIMIT 1), 'Cash', '2024-12-18 10:42:09', 6.00),
+((SELECT `OrderID` FROM `orders` ORDER BY `OrderID` LIMIT 1 OFFSET 1), 'Cash', '2024-12-18 10:42:09', 8.50);
 
 -- Step 17: Stored Procedure
 DELIMITER ;;

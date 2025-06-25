@@ -1,0 +1,3 @@
+sudo mkir uploads
+sudo chown -R www-data:www-data uploads
+sudo chmod -R 755 uploads

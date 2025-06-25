@@ -9,10 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $cartItems = json_decode(file_get_contents('php://input'), true);
         
         // Clear temporary table first
-        $conn->query("TRUNCATE TABLE OrderItemsTemp");
+        $conn->query("TRUNCATE TABLE orderitemstemp");
         
         // Insert items into temporary table
-        $stmt = $conn->prepare("INSERT INTO OrderItemsTemp (ProductID, Quantity) VALUES (?, ?)");
+        $stmt = $conn->prepare("INSERT INTO orderitemstemp (ProductID, Quantity) VALUES (?, ?)");
         
         foreach ($cartItems as $productId => $item) {
             $stmt->bind_param("ii", $productId, $item['quantity']);

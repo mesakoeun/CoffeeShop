@@ -178,7 +178,7 @@ BEGIN
         t.ProductID,
         t.Quantity,
         p.Price * t.Quantity AS Subtotal
-    FROM OrderItemsTemp t
+    FROM orderitemstemp t
     JOIN products p ON t.ProductID = p.ProductID;
 
     UPDATE orders 
@@ -199,7 +199,7 @@ BEGIN
 
     COMMIT;
 
-    TRUNCATE TABLE OrderItemsTemp;
+    TRUNCATE TABLE orderitemstemp;
 
     WITH OrderSummary AS (
         SELECT 

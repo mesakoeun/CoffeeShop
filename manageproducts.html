@@ -254,33 +254,34 @@
             const tbody = document.getElementById("productTable");
             tbody.innerHTML = "";
             products.forEach((product, index) => {
+              const imgSrc = product.img ? `uploads/${product.img}` : null;
               tbody.innerHTML += `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${
-                                  product.img
-                                    ? `<img src='{$imgSrc}' width='50' style='cursor:pointer' onclick=\"openImgModal('{$imgSrc}')\">`
-                                    : "No image"
-                                }</td>
-                                <td>${product.Name}</td>
-                                <td>${product.Category}</td>
-                                <td>$${parseFloat(product.Price).toFixed(
-                                  2
-                                )}</td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary" onclick="showEditModal(${JSON.stringify(
-                                      product
-                                    ).replace(/"/g, "&quot;")})">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteProduct(${
-                                      product.ProductID
-                                    })">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        `;
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>
+                    ${
+                      imgSrc
+                        ? `<img src='${imgSrc}' width='50' style='cursor:pointer' onclick="openImgModal('${imgSrc}')">`
+                        : "No image"
+                    }
+                  </td>
+                  <td>${product.Name}</td>
+                  <td>${product.Category}</td>
+                  <td>$${parseFloat(product.Price).toFixed(2)}</td>
+                  <td>
+                    <button class="btn btn-sm btn-primary" onclick="showEditModal(${JSON.stringify(
+                      product
+                    ).replace(/\"/g, "&quot;")})">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteProduct(${
+                      product.ProductID
+                    })">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              `;
             });
           });
       }

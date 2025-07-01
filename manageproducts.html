@@ -23,8 +23,105 @@
     nav ul li a:hover {
       background-color: #575757;
     }
+    /* Modal styles */
+    .img-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+    }
+    .img-modal.active {
+      display: flex;
+    }
+    .img-modal-zoom {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 5px 15px;
+      border-radius: 8px;
+    }
+    .img-modal-content {
+      position: relative;
+      background: transparent;
+      padding: 0;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .img-modal-content img {
+      max-width: 80vw;
+      max-height: 80vh;
+      transition: transform 0.2s;
+    }
+    .img-modal-close {
+      position: absolute;
+      top: -30px;
+      right: 0;
+      font-size: 2rem;
+      color: white;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .img-modal-zoom {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    .img-modal-zoom button {
+      font-size: 1.5rem;
+      padding: 5px 15px;
+      cursor: pointer;
+    }
   </style>
+  <div id="imgModal" class="img-modal">
+    <div class="img-modal-content">
+      <button class="img-modal-close" onclick="closeImgModal()">&times;</button>
+      <img id="modalImg" src="" alt="Preview" />
+      <div class="img-modal-zoom">
+        <button onclick="zoomImg(-0.2)">-</button>
+        <button onclick="zoomImg(0.2)">+</button>
+      </div>
+    </div>
+  </div>
   <script>
+    let currentZoom = 1;
+    function openImgModal(src) {
+      document.getElementById("modalImg").src = src;
+      document.getElementById("imgModal").classList.add("active");
+      currentZoom = 1;
+      document.getElementById("modalImg").style.transform = "scale(1)";
+    }
+    function closeImgModal() {
+      document.getElementById("imgModal").classList.remove("active");
+      document.getElementById("modalImg").src = "";
+    }
+    function zoomImg(delta) {
+      currentZoom += delta;
+      if (currentZoom < 0.2) currentZoom = 0.2;
+      if (currentZoom > 5) currentZoom = 5;
+      document.getElementById("modalImg").style.transform =
+        "scale(" + currentZoom + ")";
+    }
+    // Optional: Close modal on background click
+    document.getElementById("imgModal").addEventListener("click", function (e) {
+      if (e.target === this) closeImgModal();
+    });
     // Function to load the header into the page
     fetch("header.html")
       .then((response) => response.text())
@@ -162,7 +259,7 @@
                                 <td>${index + 1}</td>
                                 <td>${
                                   product.img
-                                    ? `<img src="uploads/${product.img}" height="50">`
+                                    ? `<img src='{$imgSrc}' width='50' style='cursor:pointer' onclick=\"openImgModal('{$imgSrc}')\">`
                                     : "No image"
                                 }</td>
                                 <td>${product.Name}</td>
